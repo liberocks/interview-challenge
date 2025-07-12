@@ -1,8 +1,8 @@
-"use client"
+'use client';
 
 import { useEffect, useState } from 'react';
 
-const API = "http://localhost:8080";
+const API = 'http://localhost:8080';
 
 type SampleEntity = { id: number; name: string };
 
@@ -42,7 +42,10 @@ export default function Home() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <button onClick={createSample} className="bg-blue-600 text-white px-4 py-1 rounded">
+        <button
+          onClick={createSample}
+          className="bg-blue-600 text-white px-4 py-1 rounded"
+        >
           Add
         </button>
       </div>
