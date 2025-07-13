@@ -1,0 +1,27 @@
+{
+  "name": "interview-challenge",
+  "version": "1.0.0",
+  "description": "Full-stack interview challenge application with Next.js frontend and NestJS backend",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"pnpm run dev:backend\" \"pnpm run dev:frontend\"",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:backend": "pnpm --filter backend start:dev",
+    "lint": "pnpm run lint:frontend && pnpm run lint:backend",
+    "lint:frontend": "pnpm --filter frontend lint",
+    "lint:backend": "pnpm --filter backend lint",
+    "format": "pnpm run format:frontend && pnpm run format:backend",
+    "format:frontend": "pnpm --filter frontend format",
+    "format:backend": "pnpm --filter backend format"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0",
+    "cross-env": "^7.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}
