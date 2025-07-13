@@ -19,7 +19,7 @@ import {
 import { PatientService } from '../patient/patient.service';
 import { MedicationService } from '../medication/medication.service';
 
-@Controller('assignments')
+@Controller('assignment')
 export class AssignmentController {
   constructor(
     private readonly assignmentService: AssignmentService,

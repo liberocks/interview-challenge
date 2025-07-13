@@ -46,6 +46,8 @@ export class AssignmentService {
       numberOfDays: res.numberOfDays,
       createdAt: res.createdAt,
       updatedAt: res.updatedAt,
+      patient: res.patient || null,
+      medication: res.medication || null,
       remainingDays: Math.max(
         Number(
           moment(res.startDate)
@@ -84,6 +86,8 @@ export class AssignmentService {
       numberOfDays: item.numberOfDays,
       createdAt: item.createdAt,
       updatedAt: item.updatedAt,
+      patient: item.patient || null,
+      medication: item.medication || null,
       remainingDays: Math.max(
         Number(
           moment(item.startDate)

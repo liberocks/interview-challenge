@@ -7,6 +7,7 @@ export interface AssignmentEntity {
   medicationId: string;
   startDate?: Date;
   numberOfDays: number;
+  remainingDays: number;
   patient: PatientEntity;
   medication: MedicationEntity;
   createdAt: Date;

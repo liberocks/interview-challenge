@@ -14,7 +14,7 @@ export class AppService {
   ) {}
 
   getHello(): string {
-    return `Welcome to the backend service! ${process.env.CORS_ORIGIN || ''}`;
+    return 'Welcome to the backend service!';
   }
 
   async runSeeder(): Promise<string> {
@@ -50,13 +50,13 @@ export class AppService {
       const patient = patients[Math.floor(Math.random() * patients.length)];
       const medication =
         medications[Math.floor(Math.random() * medications.length)];
-      const startDate = faker.date.recent({ days: 90 });
+      const startDate = faker.date.recent({ days: 30 });
 
       await this.assignmentService.create({
         patientId: patient.id,
         medicationId: medication.id,
         startDate,
-        numberOfDays: faker.number.int({ min: 1, max: 365 }),
+        numberOfDays: faker.number.int({ min: 1, max: 30 }),
       });
     }
 

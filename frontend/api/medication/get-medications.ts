@@ -21,7 +21,7 @@ export const getMedications = async (query: GetMedicationsQuery) => {
   if (query.limit) params.append('limit', query.limit.toString());
   if (query.name) params.append('name', query.name);
 
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API}/patient?${params.toString()}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API}/medication?${params.toString()}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ export const getMedications = async (query: GetMedicationsQuery) => {
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch patients');
+    throw new Error('Failed to fetch medications');
   }
 
   return response.json() as Promise<GetMedicationsResponse>;

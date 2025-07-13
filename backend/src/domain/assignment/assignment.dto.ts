@@ -1,6 +1,8 @@
 import { IsNotEmpty, IsPositive, IsUUID, IsDate, Max } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { PatientEntity } from '../patient/patient.entity';
+import { MedicationEntity } from '../medication/medication.entity';
 
 export class CreateAssignmentRequestDto {
   @IsNotEmpty()
@@ -67,6 +69,12 @@ export class GetAssignmentResponseDto {
 
   @ApiProperty()
   remainingDays: number;
+
+  @ApiProperty()
+  patient: PatientEntity | null;
+
+  @ApiProperty()
+  medication: MedicationEntity | null;
 
   @ApiProperty()
   createdAt: Date;

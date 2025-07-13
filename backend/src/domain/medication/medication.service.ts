@@ -29,6 +29,7 @@ export class MedicationService {
   ): Promise<{ items: MedicationEntity[]; total: number }> {
     const [items, total] = await this.medicationRepo.findAndCount({
       skip: (page - 1) * limit,
+      take: limit,
       where: filters?.name ? { name: ILike(`%${filters.name}%`) } : {},
     });
 

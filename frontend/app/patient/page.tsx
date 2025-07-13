@@ -9,12 +9,30 @@ import patientApi, { PatientEntity } from '@/api/patient';
 
 export default function Home() {
   const [patients, setPatients] = useState<PatientEntity[]>([]);
+
+  // Fields for creating a new patient
   const [name, setName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState('');
 
-  const fetchSamples = async () => {
-    const res = await patientApi.getPatients({ page: 1, limit: 10 });
-    setPatients(res.items || []);
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [total, setTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchPatients = async (page: number = 1) => {
+    setIsLoading(true);
+    try {
+      const res = await patientApi.getPatients({ page, limit });
+
+      setPatients(res.items || []);
+      setTotal(res.total || 0);
+      setPage(page);
+    } catch (error) {
+      console.error('Failed to fetch patients:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const createPatient = async () => {
@@ -23,15 +41,13 @@ export default function Home() {
 
     setName('');
     setDateOfBirth('');
-    fetchSamples();
+    fetchPatients();
   };
 
   return (
-    <Async request={fetchSamples} skeleton={<Spin />}>
+    <Async request={fetchPatients} skeleton={<Spin />}>
       <div className="p-8 font-sans">
-        <h1 className="text-2xl font-bold mb-4">
-          Medication Manager {process.env.NEXT_PUBLIC_API}
-        </h1>
+        <h1 className="text-2xl font-bold mb-4">Assignment Manager</h1>
 
         <div className="flex gap-2 mb-4">
           <input
@@ -86,6 +102,38 @@ export default function Home() {
             </tbody>
           </table>
         </ul>
+        <div className="flex flex-row justify-between mt-4">
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600">
+              Showing {limit * (page - 1) + 1} to{' '}
+              {Math.min(limit * page, total)} of {total} entries
+            </span>
+            &bull;
+            <span className="text-sm text-gray-600">
+              Page {page} of {Math.ceil(total / limit)}
+            </span>
+          </div>
+          <div>
+            <button
+              type="button"
+              className="bg-blue-600 text-white px-4 py-1 rounded mr-2 disabled:bg-gray-200"
+              onClick={() => fetchPatients(Math.max(page - 1, 1))}
+              disabled={page <= 1 || isLoading}
+            >
+              Previous
+            </button>
+            <button
+              type="button"
+              className="bg-blue-600 text-white px-4 py-1 rounded disabled:bg-gray-200"
+              onClick={() =>
+                fetchPatients(Math.min(page + 1, Math.ceil(total / limit)))
+              }
+              disabled={page * limit >= total || isLoading}
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </Async>
   );
