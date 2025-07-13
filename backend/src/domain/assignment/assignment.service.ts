@@ -30,16 +30,49 @@ export class AssignmentService {
     return this.assignmentRepo.save(entity);
   }
 
+  async getById(id: string): Promise<GetAssignmentResponseDto | null> {
+    const res = await this.assignmentRepo.findOne({
+      where: { id },
+      relations: ['medication', 'patient'],
+    });
+
+    if (!res) return null;
+
+    return {
+      id: res.id,
+      medicationId: res.medication ? res.medication.id : null,
+      patientId: res.patient ? res.patient.id : null,
+      startDate: res.startDate,
+      numberOfDays: res.numberOfDays,
+      createdAt: res.createdAt,
+      updatedAt: res.updatedAt,
+      remainingDays: Math.max(
+        Number(
+          moment(res.startDate)
+            .add(res.numberOfDays, 'days')
+            .diff(moment(), 'days', true)
+            .toFixed(0),
+        ),
+        0,
+      ),
+    };
+  }
+
   async paginate(
     page: number,
     limit: number,
-    patientId?: string,
+    filters: { patientId?: string; medicationId?: string },
   ): Promise<{ items: GetAssignmentResponseDto[]; total: number }> {
     const [items, total] = await this.assignmentRepo.findAndCount({
       skip: (page - 1) * limit,
       take: limit,
       relations: ['medication', 'patient'],
-      where: patientId ? { patient: { id: patientId } } : {},
+      where: {
+        ...(filters.patientId ? { patient: { id: filters.patientId } } : {}),
+        ...(filters.medicationId
+          ? { medication: { id: filters.medicationId } }
+          : {}),
+      },
     });
 
     // Transform items to DTO format

@@ -74,7 +74,7 @@ export class MedicationController {
     }
 
     // Paginate medications
-    const result = await this.medicationService.paginate(page, limit, name);
+    const result = await this.medicationService.paginate(page, limit, { name });
 
     res.status(HttpStatus.OK).json(result);
   }

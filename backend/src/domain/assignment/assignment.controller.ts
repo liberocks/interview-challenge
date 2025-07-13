@@ -73,11 +73,17 @@ export class AssignmentController {
     required: false,
     type: String,
   })
+  @ApiQuery({
+    name: 'medicationId',
+    required: false,
+    type: String,
+  })
   async getAssignments(
     @Res() res: Response,
     @Query('page') page: number,
     @Query('limit') limit: number,
     @Query('patientId') patientId?: string,
+    @Query('medicationId') medicationId?: string,
   ) {
     // Validate pagination parameters
     if (!page || page < 1) page = 1;
@@ -97,11 +103,10 @@ export class AssignmentController {
     }
 
     // Paginate assignments
-    const result = await this.assignmentService.paginate(
-      page,
-      limit,
+    const result = await this.assignmentService.paginate(page, limit, {
       patientId,
-    );
+      medicationId,
+    });
 
     res.status(HttpStatus.OK).json(result);
   }

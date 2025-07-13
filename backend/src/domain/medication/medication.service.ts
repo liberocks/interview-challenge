@@ -25,11 +25,11 @@ export class MedicationService {
   async paginate(
     page: number,
     limit: number,
-    name: string | null = null,
+    filters?: { name: string | null },
   ): Promise<{ items: MedicationEntity[]; total: number }> {
     const [items, total] = await this.medicationRepo.findAndCount({
       skip: (page - 1) * limit,
-      where: name ? { name: ILike(`%${name}%`) } : {},
+      where: filters?.name ? { name: ILike(`%${filters.name}%`) } : {},
     });
 
     return { items, total };

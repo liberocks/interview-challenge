@@ -24,12 +24,12 @@ export class PatientService {
   async paginate(
     page: number,
     limit: number,
-    name: string | null = null,
+    filters?: { name: string | null },
   ): Promise<{ items: PatientEntity[]; total: number }> {
     const [items, total] = await this.sampleRepo.findAndCount({
       skip: (page - 1) * limit,
       take: limit,
-      where: name ? { name: ILike(`%${name}%`) } : {},
+      where: filters?.name ? { name: ILike(`%${filters.name}%`) } : {},
     });
 
     return { items, total };

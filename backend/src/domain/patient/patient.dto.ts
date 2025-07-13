@@ -1,6 +1,5 @@
-import { IsNotEmpty, IsDate, Length } from 'class-validator';
+import { IsNotEmpty, Length, IsDateString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
 
 export class CreatePatientRequestDto {
   @IsNotEmpty()
@@ -9,10 +8,9 @@ export class CreatePatientRequestDto {
   name: string;
 
   @IsNotEmpty()
-  @Type(() => Date)
-  @IsDate()
+  @IsDateString()
   @ApiProperty()
-  dateOfBirth: Date;
+  dateOfBirth: string;
 }
 
 export class CreatePatientResponseDto {
