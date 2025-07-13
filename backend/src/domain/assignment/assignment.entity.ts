@@ -18,9 +18,6 @@ export class AssignmentEntity {
   @PrimaryColumn()
   id: string = uuidv7();
 
-  @Column()
-  name: string;
-
   @ManyToOne(() => MedicationEntity)
   @JoinColumn({ name: 'medicationId' })
   medication: MedicationEntity;
@@ -28,6 +25,12 @@ export class AssignmentEntity {
   @ManyToOne(() => PatientEntity)
   @JoinColumn({ name: 'patientId' })
   patient: PatientEntity;
+
+  @Column({ nullable: true })
+  startDate: Date;
+
+  @Column()
+  numberOfDays: number;
 
   @CreateDateColumn()
   createdAt: Date;

@@ -9,5 +9,6 @@ import { MedicationController } from './medication.controller';
   imports: [TypeOrmModule.forFeature([MedicationEntity])],
   providers: [MedicationService],
   controllers: [MedicationController],
+  exports: [MedicationService],
 })
 export class MedicationModule {}

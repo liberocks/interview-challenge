@@ -16,4 +16,20 @@ export class PatientService {
     const entity = this.sampleRepo.create(data);
     return this.sampleRepo.save(entity);
   }
+
+  async getById(id: string): Promise<PatientEntity | null> {
+    return this.sampleRepo.findOne({ where: { id } });
+  }
+
+  async paginate(
+    page: number,
+    limit: number,
+  ): Promise<{ items: PatientEntity[]; total: number }> {
+    const [items, total] = await this.sampleRepo.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    return { items, total };
+  }
 }

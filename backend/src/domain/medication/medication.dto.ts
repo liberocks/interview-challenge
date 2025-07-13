@@ -1,26 +1,21 @@
-import { IsNotEmpty, IsEnum, IsPositive } from 'class-validator';
+import { IsNotEmpty, IsEnum, IsPositive, Length } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-
-import { MedicationFrequencyUnit } from './medication.entity';
 
 export class CreateMedicationRequestDto {
   @IsNotEmpty()
+  @Length(3, 100)
   @ApiProperty()
   name: string;
 
   @IsNotEmpty()
+  @Length(3, 64)
   @ApiProperty()
   dosage: string;
 
   @IsNotEmpty()
-  @IsPositive()
-  @ApiProperty()
-  frequency: number;
-
-  @IsNotEmpty()
-  @IsEnum(MedicationFrequencyUnit)
-  @ApiProperty({ enum: MedicationFrequencyUnit })
-  frequencyUnit: MedicationFrequencyUnit;
+  @Length(3, 32)
+  @ApiProperty({ examples: ['once daily', 'twice daily', 'three times daily'] })
+  frequency: string;
 }
 
 export class CreateMedicationResponseDto {
@@ -37,11 +32,24 @@ export class CreateMedicationResponseDto {
   frequency: string;
 
   @ApiProperty()
-  frequencyUnit: MedicationFrequencyUnit;
-
-  @ApiProperty()
   createdAt: Date;
 
   @ApiProperty()
   updatedAt: Date;
+}
+
+export class GetMedicationResponseDto extends CreateMedicationResponseDto {}
+
+export class GetMedicationsResponseDto {
+  @ApiProperty({ type: [GetMedicationResponseDto] })
+  medications: GetMedicationResponseDto[];
+
+  @ApiProperty()
+  total: number;
+
+  @ApiProperty()
+  page: number;
+
+  @ApiProperty()
+  totalPages: number;
 }

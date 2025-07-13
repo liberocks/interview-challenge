@@ -16,4 +16,20 @@ export class MedicationService {
     const entity = this.medicationRepo.create(data);
     return this.medicationRepo.save(entity);
   }
+
+  async getById(id: string): Promise<MedicationEntity | null> {
+    return this.medicationRepo.findOne({ where: { id } });
+  }
+
+  async paginate(
+    page: number,
+    limit: number,
+  ): Promise<{ items: MedicationEntity[]; total: number }> {
+    const [items, total] = await this.medicationRepo.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    return { items, total };
+  }
 }

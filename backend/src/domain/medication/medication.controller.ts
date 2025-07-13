@@ -1,6 +1,14 @@
-import { Controller, Post, Body, Res, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Res,
+  HttpStatus,
+  Get,
+  Query,
+} from '@nestjs/common';
 import type { Response } from 'express';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 
 import { MedicationService } from './medication.service';
 import {
@@ -18,8 +26,43 @@ export class MedicationController {
     type: CreateMedicationResponseDto,
   })
   async create(@Body() data: CreateMedicationRequestDto, @Res() res: Response) {
+    // Create medication
     const result = await this.medicationService.create(data);
 
     res.status(HttpStatus.CREATED).json(result);
+  }
+
+  @Get()
+  @ApiQuery({
+    name: 'page',
+    required: false,
+    schema: { default: 1 },
+    type: Number,
+  })
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    schema: { default: 10 },
+    type: Number,
+  })
+  async getMedications(
+    @Res() res: Response,
+    @Query('page') page: number,
+    @Query('limit') limit: number,
+  ) {
+    // Validate pagination parameters
+    if (!page || page < 1) page = 1;
+    if (!limit || limit < 1) limit = 10;
+
+    if (limit > 100) {
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Limit cannot exceed 100',
+      });
+    }
+
+    // Paginate medications
+    const result = await this.medicationService.paginate(page, limit);
+
+    res.status(HttpStatus.OK).json(result);
   }
 }
