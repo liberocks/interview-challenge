@@ -6,7 +6,6 @@ import moment from 'moment';
 import { Async } from '@/components/async';
 import Spin from '@/components/spin';
 import patientApi, { PatientEntity } from '@/api/patient';
-import ShowIf from '@/components/show-if';
 
 export default function Home() {
   const [patients, setPatients] = useState<PatientEntity[]>([]);
