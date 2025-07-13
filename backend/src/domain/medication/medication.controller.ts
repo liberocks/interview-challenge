@@ -45,10 +45,17 @@ export class MedicationController {
     schema: { default: 10 },
     type: Number,
   })
+  @ApiQuery({
+    name: 'name',
+    required: false,
+    schema: { default: null },
+    type: String,
+  })
   async getMedications(
     @Res() res: Response,
     @Query('page') page: number,
     @Query('limit') limit: number,
+    @Query('name') name: string | null,
   ) {
     // Validate pagination parameters
     if (!page || page < 1) page = 1;
@@ -60,8 +67,14 @@ export class MedicationController {
       });
     }
 
+    if (name && name.length > 100) {
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Name cannot exceed 100 characters',
+      });
+    }
+
     // Paginate medications
-    const result = await this.medicationService.paginate(page, limit);
+    const result = await this.medicationService.paginate(page, limit, name);
 
     res.status(HttpStatus.OK).json(result);
   }

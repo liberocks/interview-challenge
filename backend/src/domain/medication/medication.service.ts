@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import type { Repository } from 'typeorm';
+import { ILike } from 'typeorm';
 
 import { MedicationEntity } from './medication.entity';
 import type { CreateMedicationRequestDto } from './medication.dto';
@@ -24,10 +25,11 @@ export class MedicationService {
   async paginate(
     page: number,
     limit: number,
+    name: string | null = null,
   ): Promise<{ items: MedicationEntity[]; total: number }> {
     const [items, total] = await this.medicationRepo.findAndCount({
       skip: (page - 1) * limit,
-      take: limit,
+      where: name ? { name: ILike(`%${name}%`) } : {},
     });
 
     return { items, total };
