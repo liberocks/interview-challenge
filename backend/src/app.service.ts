@@ -14,13 +14,13 @@ export class AppService {
   ) {}
 
   getHello(): string {
-    return 'Welcome to the backend service!';
+    return `Welcome to the backend service! ${process.env.CORS_ORIGIN || ''}`;
   }
 
   async runSeeder(): Promise<string> {
     // Patients
-    Array.from({ length: 500 }).map(() => {
-      return this.patientService.create({
+    for (const _ of Array.from({ length: 120 })) {
+      await this.patientService.create({
         name: faker.person.fullName(),
         dateOfBirth: faker.date
           .birthdate({
@@ -30,18 +30,18 @@ export class AppService {
           })
           .toISOString(),
       });
-    });
+    }
     const patientsResult = await this.patientService.paginate(1, 500);
     const patients = patientsResult.items;
 
     // Medications
-    Array.from({ length: 500 }).map(() => {
-      return this.medicationService.create({
+    for (const _ of Array.from({ length: 120 })) {
+      await this.medicationService.create({
         name: faker.commerce.productName(),
         dosage: `${faker.number.int({ min: 1, max: 500 })} mg`,
         frequency: `${faker.number.int({ min: 1, max: 3 })}x per day`,
       });
-    });
+    }
     const medicationsResult = await this.medicationService.paginate(1, 500);
     const medications = medicationsResult.items;
 
@@ -50,13 +50,13 @@ export class AppService {
       const patient = patients[Math.floor(Math.random() * patients.length)];
       const medication =
         medications[Math.floor(Math.random() * medications.length)];
-      const startDate = faker.date.recent({ days: 30 });
+      const startDate = faker.date.recent({ days: 90 });
 
       await this.assignmentService.create({
         patientId: patient.id,
         medicationId: medication.id,
         startDate,
-        numberOfDays: faker.number.int({ min: 1, max: 30 }),
+        numberOfDays: faker.number.int({ min: 1, max: 365 }),
       });
     }
 
