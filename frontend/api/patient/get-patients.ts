@@ -21,7 +21,7 @@ export const getPatients = async (query: GetPatientsQuery): Promise<GetPatientsR
   if (query.limit) params.append('limit', query.limit.toString());
   if (query.name) params.append('name', query.name);
 
-  const response = await fetch(`${process.env.API}/patient?${params.toString()}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API}/patient?${params.toString()}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

@@ -5,7 +5,7 @@ export type CreateMedicationRequest = Pick<MedicationEntity, 'name' | 'dosage' |
 export interface CreateMedicationResponse extends MedicationEntity {}
 
 export const createMedication = async (data: CreateMedicationRequest) => {
-  const response = await fetch(`${process.env.API}/medication`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API}/medication`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

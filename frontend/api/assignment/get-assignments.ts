@@ -21,7 +21,7 @@ export const getAssigments = async (query: GetAssignmentsQuery) => {
   if (query.patientId) params.append('patientId', query.patientId);
   if (query.medicationId) params.append('medicationId', query.medicationId);
 
-  const response = await fetch(`${process.env.API}/assignment?${params.toString()}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API}/assignment?${params.toString()}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

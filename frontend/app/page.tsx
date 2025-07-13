@@ -29,7 +29,9 @@ export default function Home() {
   return (
     <Async request={fetchSamples} skeleton={<Spin />}>
       <div className="p-8 font-sans">
-        <h1 className="text-2xl font-bold mb-4">Medication Manager</h1>
+        <h1 className="text-2xl font-bold mb-4">
+          Medication Manager {process.env.NEXT_PUBLIC_API}
+        </h1>
 
         <div className="flex gap-2 mb-4">
           <input

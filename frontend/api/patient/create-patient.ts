@@ -8,7 +8,7 @@ export interface CreatePatientRequest {
 export interface CreatePatientResponse extends PatientEntity {}
 
 export const createPatient = async (data: CreatePatientRequest) => {
-  const response = await fetch(`${process.env.API}/patient`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API}/patient`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

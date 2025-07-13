@@ -19,6 +19,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 COPY --from=builder /app/tsconfig.build.json ./tsconfig.build.json
+COPY --from=builder /app/database.sqlite ./database.sqlite
 RUN pnpm install bindings@^1.5.0 prebuild-install@^7.1.1
 RUN pnpm install better-sqlite3@11.10.0
 RUN cd node_modules/better-sqlite3 && pnpm install && cd /app

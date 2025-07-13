@@ -5,7 +5,7 @@ export type CreateAssignmentRequest = Pick<AssignmentEntity, 'patientId' | 'medi
 export interface CreateAssignmentResponse extends AssignmentEntity {}
 
 export const createAssignment = async (data: CreateAssignmentRequest) => {
-  const response = await fetch(`${process.env.API}/assignment`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API}/assignment`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

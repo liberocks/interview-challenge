@@ -1,5 +1,11 @@
 # ---- Build Stage ----
 FROM node:20-alpine AS builder
+
+ARG NEXT_PUBLIC_API
+ENV NEXT_PUBLIC_API=$NEXT_PUBLIC_API
+
+ENV NODE_ENV=production
+
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 RUN npm install -g pnpm && pnpm install --frozen-lockfile
@@ -10,6 +16,7 @@ RUN pnpm build
 FROM node:20-alpine AS runner
 WORKDIR /app
 RUN npm install -g pnpm
+
 ENV NODE_ENV=production
 
 # Copy only necessary files from builder
