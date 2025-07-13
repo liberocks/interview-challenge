@@ -15,5 +15,6 @@ import { MedicationModule } from '../medication/medication.module';
   ],
   providers: [AssignmentService],
   controllers: [AssignmentController],
+  exports: [AssignmentService],
 })
 export class AssignmentModule {}

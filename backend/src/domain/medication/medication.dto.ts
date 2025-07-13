@@ -14,7 +14,7 @@ export class CreateMedicationRequestDto {
 
   @IsNotEmpty()
   @Length(3, 32)
-  @ApiProperty({ examples: ['once daily', 'twice daily', 'three times daily'] })
+  @ApiProperty()
   frequency: string;
 }
 

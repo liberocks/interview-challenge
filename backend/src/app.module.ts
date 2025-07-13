@@ -15,7 +15,6 @@ import { AssignmentModule } from './domain/assignment/assignment.module';
       entities: [`${__dirname}/**/*.entity{.ts,.js}`],
       synchronize: true,
     }),
-
     PatientModule,
     MedicationModule,
     AssignmentModule,
