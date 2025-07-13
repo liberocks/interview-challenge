@@ -5,14 +5,15 @@ import moment from 'moment';
 
 import { Async } from '@/components/async';
 import Spin from '@/components/spin';
-import patientApi, { PatientEntity } from '@/api/patient';
+import medicationApi, { MedicationEntity } from '@/api/medication';
 
 export default function Home() {
-  const [patients, setPatients] = useState<PatientEntity[]>([]);
+  const [patients, setPatients] = useState<MedicationEntity[]>([]);
 
-  // Fields for creating a new patient
+  // Fields for creating a new medication
   const [name, setName] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [dosage, setDosage] = useState('');
+  const [frequency, setFrequency] = useState('');
 
   // Pagination state
   const [page, setPage] = useState(1);
@@ -20,34 +21,37 @@ export default function Home() {
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchPatients = async (page: number = 1) => {
+  const fetchMedications = async (page: number = 1) => {
     setIsLoading(true);
+
     try {
-      const res = await patientApi.getPatients({ page, limit });
+      const res = await medicationApi.getMedications({ page, limit });
 
       setPatients(res.items || []);
       setTotal(res.total || 0);
       setPage(page);
     } catch (error) {
-      console.error('Failed to fetch patients:', error);
+      console.error('Failed to fetch medications:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const createPatient = async () => {
-    if (!name.trim()) return;
-    await patientApi.createPatient({ name, dateOfBirth });
+  const createMedication = async () => {
+    if (!name.trim() || !dosage.trim() || !frequency.trim()) return;
+    await medicationApi.createMedication({ name, dosage, frequency });
 
     setName('');
-    setDateOfBirth('');
-    fetchPatients();
+    setDosage('');
+    setFrequency('');
+
+    fetchMedications();
   };
 
   return (
-    <Async request={fetchPatients} skeleton={<Spin />}>
+    <Async request={fetchMedications} skeleton={<Spin />}>
       <div className="p-8 font-sans">
-        <h1 className="text-2xl font-bold mb-4">Assignment Manager</h1>
+        <h1 className="text-2xl font-bold mb-4">Medication Manager</h1>
 
         <div className="flex gap-2 mb-4">
           <input
@@ -58,50 +62,45 @@ export default function Home() {
           />
           <input
             className="border px-2 py-1 rounded w-64"
-            type="date"
-            value={dateOfBirth}
-            onChange={(e) => {
-              // Ensure value is always in YYYY-MM-DD format
-              const val = e.target.value;
-              const formatted = val.replace(/[^0-9\-]/g, '').slice(0, 10);
-              setDateOfBirth(formatted);
-            }}
-            pattern="\d{4}-\d{2}-\d{2}"
-            placeholder="YYYY-MM-DD"
+            placeholder="Dosage (e.g., 500 mg)"
+            value={dosage}
+            onChange={(e) => setDosage(e.target.value)}
+          />
+          <input
+            className="border px-2 py-1 rounded w-64"
+            placeholder="Frequency (e.g., 2x per day)"
+            value={frequency}
+            onChange={(e) => setFrequency(e.target.value)}
           />
           <button
             type="button"
-            onClick={createPatient}
+            onClick={createMedication}
             className="bg-blue-600 text-white px-4 py-1 rounded"
           >
             Add
           </button>
         </div>
 
-        <ul className="space-y-1">
+        <div className="space-y-1">
           <table className="min-w-full border mt-4">
             <thead>
               <tr>
-                <th className="border px-2 py-1 text-left">ID</th>
                 <th className="border px-2 py-1 text-left">Name</th>
-                <th className="border px-2 py-1 text-left">Date of Birth</th>
+                <th className="border px-2 py-1 text-left">Dosage</th>
+                <th className="border px-2 py-1 text-left">Frequency</th>
               </tr>
             </thead>
             <tbody>
               {patients.map((s) => (
                 <tr key={s.id}>
-                  <td className="border px-2 py-1">{s.id}</td>
                   <td className="border px-2 py-1">{s.name}</td>
-                  <td className="border px-2 py-1">
-                    {moment(s.dateOfBirth).isValid()
-                      ? moment(s.dateOfBirth).format('YYYY-MM-DD')
-                      : '-'}
-                  </td>
+                  <td className="border px-2 py-1">{s.dosage}</td>
+                  <td className="border px-2 py-1">{s.frequency}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </ul>
+        </div>
         <div className="flex flex-row justify-between mt-4">
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-600">
@@ -117,7 +116,7 @@ export default function Home() {
             <button
               type="button"
               className="bg-blue-600 text-white px-4 py-1 rounded mr-2 disabled:bg-gray-200"
-              onClick={() => fetchPatients(Math.max(page - 1, 1))}
+              onClick={() => fetchMedications(Math.max(page - 1, 1))}
               disabled={page <= 1 || isLoading}
             >
               Previous
@@ -126,7 +125,7 @@ export default function Home() {
               type="button"
               className="bg-blue-600 text-white px-4 py-1 rounded disabled:bg-gray-200"
               onClick={() =>
-                fetchPatients(Math.min(page + 1, Math.ceil(total / limit)))
+                fetchMedications(Math.min(page + 1, Math.ceil(total / limit)))
               }
               disabled={page * limit >= total || isLoading}
             >

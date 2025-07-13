@@ -108,11 +108,10 @@ export default function Home() {
           </button>
         </div>
 
-        <ul className="space-y-1">
+        <div className="space-y-1">
           <table className="min-w-full border mt-4">
             <thead>
               <tr>
-                <th className="border px-2 py-1 text-left">ID</th>
                 <th className="border px-2 py-1 text-left">Patient</th>
                 <th className="border px-2 py-1 text-left">Medication</th>
                 <th className="border px-2 py-1 text-left">Start Date</th>
@@ -123,7 +122,6 @@ export default function Home() {
             <tbody>
               {patients.map((s) => (
                 <tr key={s.id}>
-                  <td className="border px-2 py-1">{s.id}</td>
                   <td className="border px-2 py-1">{s.patient?.name}</td>
                   <td className="border px-2 py-1">
                     {s.medication?.name} (dosage: {s.medication?.dosage},
@@ -148,7 +146,7 @@ export default function Home() {
               ))}
             </tbody>
           </table>
-        </ul>
+        </div>
         <div className="flex flex-row justify-between mt-4">
           <div className="flex items-center gap-2">
             <span className="text-sm text-gray-600">
