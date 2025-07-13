@@ -85,7 +85,7 @@ npm install
 npm run start:dev
 ```
 
-Access on `http://localhost:8080`.
+Access on `http://0.0.0.0:8080`.
 
 **Frontend:**
 
@@ -95,7 +95,7 @@ npm install
 npm run dev
 ```
 
-Access on `http://localhost:3000`.
+Access on `http://0.0.0.0:3000`.
 
 The SQLite database is located at `backend/database.sqlite`.
 

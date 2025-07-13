@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-const API = 'http://localhost:8080';
+const API = 'http://0.0.0.0:8080';
 
 type SampleEntity = { id: number; name: string };
 

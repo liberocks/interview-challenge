@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   output: 'standalone',
   
-  allowedDevOrigins: ['0.0.0.0', 'localhost'],
+  allowedDevOrigins: ['0.0.0.0', '0.0.0.0'],
 
   
 };

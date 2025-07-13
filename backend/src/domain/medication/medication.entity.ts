@@ -13,7 +13,7 @@ export enum MedicationFrequencyUnit {
   MONTHLY = 'monthly',
 }
 
-@Entity()
+@Entity({ name: 'medications' })
 export class MedicationEntity {
   @PrimaryColumn()
   id: string = uuidv7();
