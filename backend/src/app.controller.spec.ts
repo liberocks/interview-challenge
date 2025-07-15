@@ -30,32 +30,32 @@ describe('AppController', () => {
 
   describe('root', () => {
     it('should return welcome message', () => {
-      // Arrange
+      // Setup
       mockAppService.getHello.mockReturnValue(
         'Welcome to the backend service!',
       );
 
-      // Act
-      const result = appController.getHello();
+      // Execute
+      const res = appController.getHello();
 
-      // Assert
+      // Assess
       expect(mockAppService.getHello).toHaveBeenCalled();
-      expect(result).toBe('Welcome to the backend service!');
+      expect(res).toBe('Welcome to the backend service!');
     });
   });
 
   describe('seeder', () => {
     it('should run seeder', async () => {
-      // Arrange
+      // Setup
       const expectedResult = 'Seeder completed successfully';
       mockAppService.runSeeder.mockResolvedValue(expectedResult);
 
-      // Act
-      const result = await appController.runSeeder();
+      // Execute
+      const res = await appController.runSeeder();
 
-      // Assert
+      // Assess
       expect(mockAppService.runSeeder).toHaveBeenCalled();
-      expect(result).toBe(expectedResult);
+      expect(res).toBe(expectedResult);
     });
   });
 });

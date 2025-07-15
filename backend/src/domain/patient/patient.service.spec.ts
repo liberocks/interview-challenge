@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
 import { v7 as uuidv7 } from 'uuid';
 import * as moment from 'moment';
 
