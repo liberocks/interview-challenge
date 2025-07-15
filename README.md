@@ -26,6 +26,8 @@ This project is a full-stack application for managing patients and their medicat
   - Assign medications to patients
   - View all assignments
 
+Notes: Please use `0.0.0.0` as the host when running the application locally to ensure it is not blocked by CORS policy.
+
 ## Getting Started
 ### Running using Docker
 To run the application using Docker, run this command in the root directory of the project:
