@@ -162,7 +162,7 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setShowCreateForm(true)}
-              className="bg-teal-600 text-white px-4 py-1 rounded"
+              className="bg-teal-600 text-white px-4 py-1 rounded hover:cursor-pointer"
             >
               Add Assignment
             </button>
@@ -179,7 +179,7 @@ export default function Home() {
                 setSelectedPatientName('');
                 setSelectedMedicationName('');
               }}
-              className="bg-rose-600 text-white px-4 py-1 rounded"
+              className="bg-rose-600 text-white px-4 py-1 rounded hover:cursor-pointer"
             >
               Cancel
             </button>
@@ -215,7 +215,7 @@ export default function Home() {
                       <button
                         key={patient.id}
                         type="button"
-                        className="w-full px-4 py-2 text-left hover:bg-gray-100 border-b border-b-gray-400 last:border-b-0"
+                        className="w-full px-4 py-2 text-left hover:bg-gray-100 border-b border-b-gray-400 last:border-b-0 hover:cursor-pointer"
                         onClick={() => {
                           setPatientId(patient.id);
                           setSelectedPatientName(patient.name);
@@ -259,7 +259,7 @@ export default function Home() {
                       <button
                         key={medication.id}
                         type="button"
-                        className="w-full px-4 py-2 text-left hover:bg-gray-100 border-b border-b-gray-400 last:border-b-0"
+                        className="w-full px-4 py-2 text-left hover:bg-gray-100 border-b border-b-gray-400 last:border-b-0 hover:cursor-pointer"
                         onClick={() => {
                           setMedicationId(medication.id);
                           setSelectedMedicationName(medication.name);
@@ -310,7 +310,7 @@ export default function Home() {
             <button
               type="button"
               onClick={createAssignment}
-              className="bg-teal-600 text-white px-4 py-1 rounded"
+              className="bg-teal-600 text-white px-4 py-1 rounded hover:cursor-pointer"
             >
               Add
             </button>
@@ -370,7 +370,7 @@ export default function Home() {
           <div>
             <button
               type="button"
-              className="bg-teal-600 text-white px-4 py-1 rounded mr-2 disabled:bg-gray-200"
+              className="bg-teal-600 text-white px-4 py-1 rounded mr-2 disabled:bg-gray-200 hover:cursor-pointer"
               onClick={() => fetchAssignments(Math.max(page - 1, 1))}
               disabled={page <= 1 || isLoading}
             >
@@ -378,7 +378,7 @@ export default function Home() {
             </button>
             <button
               type="button"
-              className="bg-teal-600 text-white px-4 py-1 rounded disabled:bg-gray-200"
+              className="bg-teal-600 text-white px-4 py-1 rounded disabled:bg-gray-200 hover:cursor-pointer"
               onClick={() =>
                 fetchAssignments(Math.min(page + 1, Math.ceil(total / limit)))
               }

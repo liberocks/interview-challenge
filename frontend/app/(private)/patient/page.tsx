@@ -58,7 +58,7 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setShowCreateForm(true)}
-              className="bg-teal-600 text-white px-4 py-1 rounded"
+              className="bg-teal-600 text-white px-4 py-1 rounded hover:cursor-pointer"
             >
               Add Patient
             </button>
@@ -67,7 +67,7 @@ export default function Home() {
             <button
               type="button"
               onClick={() => setShowCreateForm(false)}
-              className="bg-rose-600 text-white px-4 py-1 rounded"
+              className="bg-rose-600 text-white px-4 py-1 rounded hover:cursor-pointer"
             >
               Cancel
             </button>
@@ -105,7 +105,7 @@ export default function Home() {
             <button
               type="button"
               onClick={createPatient}
-              className="bg-teal-600 text-white px-4 py-1 rounded"
+              className="bg-teal-600 text-white px-4 py-1 rounded hover:cursor-pointer"
             >
               Add
             </button>
@@ -148,7 +148,7 @@ export default function Home() {
           <div>
             <button
               type="button"
-              className="bg-teal-600 text-white px-4 py-1 rounded mr-2 disabled:bg-gray-200"
+              className="bg-teal-600 text-white px-4 py-1 rounded mr-2 disabled:bg-gray-200 hover:cursor-pointer"
               onClick={() => fetchPatients(Math.max(page - 1, 1))}
               disabled={page <= 1 || isLoading}
             >
@@ -156,7 +156,7 @@ export default function Home() {
             </button>
             <button
               type="button"
-              className="bg-teal-600 text-white px-4 py-1 rounded disabled:bg-gray-200"
+              className="bg-teal-600 text-white px-4 py-1 rounded disabled:bg-gray-200 hover:cursor-pointer"
               onClick={() =>
                 fetchPatients(Math.min(page + 1, Math.ceil(total / limit)))
               }
