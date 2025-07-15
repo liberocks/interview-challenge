@@ -2,15 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Response } from 'express';
 import { v7 as uuidv7 } from 'uuid';
 import * as moment from 'moment';
+import { HttpStatus } from '@nestjs/common';
 
 import { PatientController } from './patient.controller';
 import { PatientService } from './patient.service';
-import {
-  CreatePatientRequestDto,
-  CreatePatientResponseDto,
-} from './patient.dto';
+import { CreatePatientRequestDto } from './patient.dto';
 import { PatientEntity } from './patient.entity';
-import { HttpStatus } from '@nestjs/common';
 
 describe('PatientController', () => {
   let controller: PatientController;
