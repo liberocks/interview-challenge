@@ -6,6 +6,7 @@ import moment from 'moment';
 import { Async } from '@/components/async';
 import Spin from '@/components/spin';
 import patientApi, { PatientEntity } from '@/api/patient';
+import ShowIf from '@/components/show-if';
 
 export default function Home() {
   const [patients, setPatients] = useState<PatientEntity[]>([]);
@@ -16,9 +17,12 @@ export default function Home() {
 
   // Pagination state
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit] = useState(10);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+
+  // UX state
+  const [showCreateForm, setShowCreateForm] = useState(false);
 
   const fetchPatients = async (page: number = 1) => {
     setIsLoading(true);
@@ -47,36 +51,66 @@ export default function Home() {
   return (
     <Async request={fetchPatients} skeleton={<Spin />}>
       <div className="p-8 font-sans">
-        <h1 className="text-2xl font-bold mb-4">Assignment Manager</h1>
+        <div className="flex justify-between items-center mb-5">
+          <h1 className="text-2xl font-bold">Patients</h1>
 
-        <div className="flex gap-2 mb-4">
-          <input
-            className="border px-2 py-1 rounded w-64"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-          <input
-            className="border px-2 py-1 rounded w-64"
-            type="date"
-            value={dateOfBirth}
-            onChange={(e) => {
-              // Ensure value is always in YYYY-MM-DD format
-              const val = e.target.value;
-              const formatted = val.replace(/[^0-9\-]/g, '').slice(0, 10);
-              setDateOfBirth(formatted);
-            }}
-            pattern="\d{4}-\d{2}-\d{2}"
-            placeholder="YYYY-MM-DD"
-          />
-          <button
-            type="button"
-            onClick={createPatient}
-            className="bg-blue-600 text-white px-4 py-1 rounded"
-          >
-            Add
-          </button>
+          <ShowIf condition={!showCreateForm}>
+            <button
+              type="button"
+              onClick={() => setShowCreateForm(true)}
+              className="bg-teal-600 text-white px-4 py-1 rounded"
+            >
+              Add Patient
+            </button>
+          </ShowIf>
+          <ShowIf condition={showCreateForm}>
+            <button
+              type="button"
+              onClick={() => setShowCreateForm(false)}
+              className="bg-rose-600 text-white px-4 py-1 rounded"
+            >
+              Cancel
+            </button>
+          </ShowIf>
         </div>
+
+        <ShowIf condition={showCreateForm}>
+          <div className="flex-col flex gap-5 mb-4 p-4 border rounded-lg bg-gray-100 border-gray-400">
+            <div className="flex gap-2 items-center">
+              <label className="block min-w-48" htmlFor="name">
+                Name
+              </label>
+              <input
+                className="border px-2 py-1 rounded w-64 flex-1"
+                placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="flex gap-2 items-center">
+              <label className="block min-w-48" htmlFor="dateOfBirth">
+                Date of Birth
+              </label>
+              <input
+                className="border px-2 py-1 rounded w-64 flex-1"
+                type="date"
+                value={dateOfBirth}
+                onChange={(e) => {
+                  setDateOfBirth(e.target.value);
+                }}
+                pattern="\d{4}-\d{2}-\d{2}"
+                placeholder="YYYY-MM-DD"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={createPatient}
+              className="bg-teal-600 text-white px-4 py-1 rounded"
+            >
+              Add
+            </button>
+          </div>
+        </ShowIf>
 
         <div className="space-y-1">
           <table className="min-w-full border mt-4">
@@ -114,7 +148,7 @@ export default function Home() {
           <div>
             <button
               type="button"
-              className="bg-blue-600 text-white px-4 py-1 rounded mr-2 disabled:bg-gray-200"
+              className="bg-teal-600 text-white px-4 py-1 rounded mr-2 disabled:bg-gray-200"
               onClick={() => fetchPatients(Math.max(page - 1, 1))}
               disabled={page <= 1 || isLoading}
             >
@@ -122,7 +156,7 @@ export default function Home() {
             </button>
             <button
               type="button"
-              className="bg-blue-600 text-white px-4 py-1 rounded disabled:bg-gray-200"
+              className="bg-teal-600 text-white px-4 py-1 rounded disabled:bg-gray-200"
               onClick={() =>
                 fetchPatients(Math.min(page + 1, Math.ceil(total / limit)))
               }
