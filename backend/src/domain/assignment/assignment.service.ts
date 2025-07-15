@@ -75,6 +75,9 @@ export class AssignmentService {
           ? { medication: { id: filters.medicationId } }
           : {}),
       },
+      order: {
+        id: 'DESC',
+      },
     });
 
     // Transform items to DTO format

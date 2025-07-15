@@ -30,6 +30,9 @@ export class PatientService {
       skip: (page - 1) * limit,
       take: limit,
       where: filters?.name ? { name: ILike(`%${filters.name}%`) } : {},
+      order: {
+        id: 'DESC',
+      },
     });
 
     return { items, total };
