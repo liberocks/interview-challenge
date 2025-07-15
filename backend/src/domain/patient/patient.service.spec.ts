@@ -136,7 +136,7 @@ describe('PatientService', () => {
       const res = await service.paginate(1, 10);
 
       // Assess
-      expect(res.items).toHaveLength(2);
+      expect(res.items).toHaveLength(mockedPatients.length);
 
       for (const patient of mockedPatients) {
         const retrievedPatient = res.items.find((p) => p.id === patient.id);
@@ -168,7 +168,7 @@ describe('PatientService', () => {
       const res = await service.paginate(1, 10, { name: 'Mary' });
 
       // Assess
-      expect(res.items).toHaveLength(1);
+      expect(res.items).toHaveLength(mockedPatients.length);
 
       for (const patient of mockedPatients) {
         const retrievedPatient = res.items.find((p) => p.id === patient.id);
