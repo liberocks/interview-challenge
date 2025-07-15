@@ -65,7 +65,7 @@ describe('MedicationController', () => {
       mockMedicationService.create.mockResolvedValue(mockedMedicationEntity);
 
       // Execute
-      const res = await controller.create(createMedicationDto, mockResponse);
+      await controller.create(createMedicationDto, mockResponse);
 
       // Assess
       expect(mockResponse.json).toHaveBeenCalledWith(
