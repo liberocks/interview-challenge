@@ -8,7 +8,9 @@ export class CreatePatientRequestDto {
   name: string;
 
   @IsNotEmpty()
-  @IsDateString()
+  @IsDateString(undefined, {
+    message: 'dateOfBirth must be formatted as YYYY-MM-DD',
+  })
   @ApiProperty()
   dateOfBirth: string;
 }
