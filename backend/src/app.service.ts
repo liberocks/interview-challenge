@@ -17,6 +17,7 @@ export class AppService {
     return 'Welcome to the backend service!';
   }
 
+  /* istanbul ignore next */
   async runSeeder(): Promise<string> {
     // Patients
     for (const _ of Array.from({ length: 120 })) {

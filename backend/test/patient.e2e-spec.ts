@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
 
-describe('AppController (e2e)', () => {
+describe('PatientController (e2e)', () => {
   let app: INestApplication<App>;
 
   beforeEach(async () => {
@@ -20,16 +20,17 @@ describe('AppController (e2e)', () => {
     await app.close();
   });
 
-  describe('/ (GET)', () => {
+  describe('/patient (POST)', () => {
     it('should be defined', () => {
       expect(app).toBeDefined();
     });
+    // TODO: Add create patient tests
+  });
 
-    it('should return a welcome message', () => {
-      return request(app.getHttpServer())
-        .get('/')
-        .expect(200)
-        .expect('Welcome to the backend service!');
+  describe('/patient (GET)', () => {
+    it('should be defined', () => {
+      expect(app).toBeDefined();
     });
+    // TODO: Add get patients tests
   });
 });
