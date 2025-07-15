@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import moment from 'moment';
+import { toast } from 'sonner';
 
 import { Async } from '@/components/async';
 import Spin from '@/components/spin';
@@ -85,32 +86,36 @@ export default function Home() {
   };
 
   const createAssignment = async () => {
-    if (
-      !patientId.trim() ||
-      !medicationId.trim() ||
-      !startDate.trim() ||
-      !numberOfDays
-    )
-      return;
-    await assignmentApi.createAssignment({
-      patientId,
-      medicationId,
-      startDate: moment(startDate).toDate(),
-      numberOfDays,
-    });
+    try {
+      if (
+        !patientId.trim() ||
+        !medicationId.trim() ||
+        !startDate.trim() ||
+        !numberOfDays
+      )
+        return;
+      await assignmentApi.createAssignment({
+        patientId,
+        medicationId,
+        startDate: moment(startDate).toDate(),
+        numberOfDays,
+      });
 
-    setPatientId('');
-    setMedicationId('');
-    setStartDate('');
-    setNumberOfDays(1);
-    setShowCreateForm(false);
-    setAutoCompletePatients([]);
-    setAutoCompleteMedications([]);
-    setPatientSearchTerm('');
-    setMedicationSearchTerm('');
-    setSelectedPatientName('');
-    setSelectedMedicationName('');
-    fetchAssignments();
+      setPatientId('');
+      setMedicationId('');
+      setStartDate('');
+      setNumberOfDays(1);
+      setShowCreateForm(false);
+      setAutoCompletePatients([]);
+      setAutoCompleteMedications([]);
+      setPatientSearchTerm('');
+      setMedicationSearchTerm('');
+      setSelectedPatientName('');
+      setSelectedMedicationName('');
+      fetchAssignments();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : String(error));
+    }
   };
 
   // Debounce the search to avoid too many API calls

@@ -14,10 +14,20 @@ export const createPatient = async (data: CreatePatientRequest) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  });
+  }).catch((error) => {
+    console.error('Error creating patient:', error)
+    throw new Error(error.message || 'Failed to create patient');
+  }) ;
 
   if (!response.ok) {
-    throw new Error('Failed to create patient');
+    let errorMessage = 'Failed to create patient';
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.message || errorData.error || errorMessage;
+    } catch (_e) {
+      errorMessage = response.statusText || errorMessage;
+    }
+    throw new Error(errorMessage);
   }
 
   return response.json() as Promise<CreatePatientResponse>;

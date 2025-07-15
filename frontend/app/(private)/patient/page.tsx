@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import moment from 'moment';
+import { toast } from 'sonner';
 
 import { Async } from '@/components/async';
 import Spin from '@/components/spin';
@@ -34,18 +35,23 @@ export default function Home() {
       setPage(page);
     } catch (error) {
       console.error('Failed to fetch patients:', error);
+      toast.error('Failed to fetch patients');
     } finally {
       setIsLoading(false);
     }
   };
 
   const createPatient = async () => {
-    if (!name.trim()) return;
-    await patientApi.createPatient({ name, dateOfBirth });
+    try {
+      if (!name.trim()) return;
+      await patientApi.createPatient({ name, dateOfBirth });
 
-    setName('');
-    setDateOfBirth('');
-    fetchPatients();
+      setName('');
+      setDateOfBirth('');
+      fetchPatients();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : String(error));
+    }
   };
 
   return (

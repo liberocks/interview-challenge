@@ -26,10 +26,20 @@ export const getMedications = async (query: GetMedicationsQuery) => {
     headers: {
       'Content-Type': 'application/json',
     },
+  }).catch((error) => {
+    console.error('Error fetching medications:', error)
+    throw new Error(error.message || 'Failed to fetch medications');
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch medications');
+    let errorMessage = 'Failed to fetch medications';
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.message || errorData.error || errorMessage;
+    } catch (_e) {
+      errorMessage = response.statusText || errorMessage;
+    }
+    throw new Error(errorMessage);
   }
 
   return response.json() as Promise<GetMedicationsResponse>;

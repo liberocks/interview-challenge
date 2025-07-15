@@ -11,10 +11,20 @@ export const createAssignment = async (data: CreateAssignmentRequest) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
+  }).catch((error) => {
+    console.error('Error creating assignment:', error)
+    throw new Error(error.message || 'Failed to create assignment');
   });
 
   if (!response.ok) {
-    throw new Error('Failed to create assignment');
+    let errorMessage = 'Failed to create assignment';
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.message || errorData.error || errorMessage;
+    } catch (_e) {
+      errorMessage = response.statusText || errorMessage;
+    }
+    throw new Error(errorMessage);
   }
 
   return response.json() as Promise<CreateAssignmentResponse>;

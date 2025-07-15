@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 import { Async } from '@/components/async';
 import Spin from '@/components/spin';
@@ -41,14 +42,18 @@ export default function Home() {
   };
 
   const createMedication = async () => {
-    if (!name.trim() || !dosage.trim() || !frequency.trim()) return;
-    await medicationApi.createMedication({ name, dosage, frequency });
+    try {
+      if (!name.trim() || !dosage.trim() || !frequency.trim()) return;
+      await medicationApi.createMedication({ name, dosage, frequency });
 
-    setName('');
-    setDosage('');
-    setFrequency('');
+      setName('');
+      setDosage('');
+      setFrequency('');
 
-    fetchMedications();
+      fetchMedications();
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : String(error));
+    }
   };
 
   return (

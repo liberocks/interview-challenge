@@ -26,10 +26,20 @@ export const getAssigments = async (query: GetAssignmentsQuery) => {
     headers: {
       'Content-Type': 'application/json',
     },
+  }).catch((error) => {
+    console.error('Error fetching assignments:', error)
+    throw new Error(error.message || 'Failed to fetch assignments');
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch patients');
+    let errorMessage = 'Failed to fetch assignments';
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.message || errorData.error || errorMessage;
+    } catch (_e) {
+      errorMessage = response.statusText || errorMessage;
+    }
+    throw new Error(errorMessage);
   }
 
   return response.json() as Promise<GetAssignmentsResponse>;
